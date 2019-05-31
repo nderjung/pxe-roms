@@ -44,10 +44,11 @@ custom PXE ROMs which point to a self-hosted [TFTP](https://help.ubuntu.com/comm
          ```
          Then copy the contents from `out/` to `10.1.0.69:/srv/tftp`. 
 
-3. Set up a HTTP server to host preseeds and kernels.  A pre-built server is
-   included in the [`docker-compose.yml`](docker-compose.yml) file as an
+3. (Optional) Set up a HTTP server to host preseeds and kernels.  A pre-built
+   server is included in the [`docker-compose.yml`](docker-compose.yml) file as an
    example.  In the rest of this tutorial, I will be referring to
-   [`https://pub.nderjung.net`](https://pub.nderjung.net) as the HTTP server.
+   [`https://pub.nderjung.net`](https://pub.nderjung.net) as the self-hosted HTTP
+   server.
 
 4. Set up a DHCP server to indicate to the network bootable server a ROM is
    available,
@@ -58,20 +59,21 @@ custom PXE ROMs which point to a self-hosted [TFTP](https://help.ubuntu.com/comm
 
    3. Set up `/etc/dnsmasq.conf`:
 
-
       ```
-      # Define pxelinux ROMs as seperate tags
-      dhcp-boot=tag:ubuntu-trusty64,pxelinux.ubuntu-trusty64
-      dhcp-boot=tag:ubuntu-xenial64,pxelinux.ubuntu-xenial64
+      # Define PXE ROMs as seperate tags (from `out/`)
+      dhcp-boot=tag:ubuntu-trusty64-serial,pxelinux.ubuntu-trusty64-serial
+      dhcp-boot=tag:ubuntu-trusty64-preseed,pxelinux.ubuntu-trusty64-preseed
+      dhcp-boot=tag:ubuntu-xenial64-serial,pxelinux.ubuntu-xenial64-serial
+      dhcp-boot=tag:ubuntu-xenial64-preseed,pxelinux.ubuntu-xenial64-preseed
 
-      # Define remote tftp server
-      dhcp-option=option:tftp-server,10.1.0.69
-
-      # Define remote http server
-      dhcp-option=option:http-server,https://pub.nderjung.net
+      # (Optional from 3.) Define remote preseed endpoints, giving them a unique
+      # tag.  ${preseed-url} will be replaced in relevant PXE config files
+      dhcp-option=tag:ubuntu-trusty64-preseed,option:preseed-url,https://pub.nderjung.net/preseeds/ubuntu.trusty64.cfg
+      dhcp-option=tag:ubuntu-xenial64-preseed,option:preseed-url,https://pub.nderjung.net/preseeds/ubuntu.xenial64.cfg
       
-      # Set device-specific ROMs
-      dhcp-host=<hwaddr>,set:ubuntu-xenial64,<ipaddr>,<hostname>
+      # Set device-specific ROMs (adjust accordingly)
+      dhcp-host=<hwaddr>,set:ubuntu-trusty64-serial,<ipaddr>,<hostname>
+      dhcp-host=<hwaddr>,set:ubuntu-xenial64-preseed,<ipaddr>,<hostname>
       ```
 
-4. Reboot <hostname> and viola!
+5. Reboot <hostname> and viola!
