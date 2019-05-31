@@ -1,8 +1,8 @@
 # PXE ROM Builder
 
-This is an all-in-one solution for self-hosting and managing PXE ROMs, Linux
+This is an all-in-one solution for self-hosting and managing [PXE](https://en.wikipedia.org/wiki/Preboot_Execution_Environment) ROMs, Linux
 kernels and kernel preseeds.  Use the provided [`Makefile`](/Makefile) to build
-custom PXE ROMs which point to a self-hosted TFTP and HTTP server.
+custom PXE ROMs which point to a self-hosted [TFTP](https://help.ubuntu.com/community/TFTP) and HTTP server.
 
 ## Usage
 
@@ -38,7 +38,7 @@ custom PXE ROMs which point to a self-hosted TFTP and HTTP server.
          $ docker run -it --rm -p 69:69/udp nderjung.net/pxe-roms:latest
          ```
 
-      2. Or, install [`tftp-hpa`]() manually, e.g:
+      2. Or, install one via package manager, e.g:
          ```bash
          # apt install -y tftpd-hpa tftp-hpa xinetd
          ```
