@@ -25,6 +25,7 @@ DOCKER_TARGET    ?= build
 # Distributions
 UBUNTU           ?= trusty64-preseed trusty64-serial
 UBUNTU           += xenial64-preseed xenial64-serial
+UBUNTU           += bionic64-preseed bionic64-serial
 
 # Build targets
 ifndef TARGET

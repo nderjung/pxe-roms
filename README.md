@@ -64,6 +64,8 @@ custom PXE ROMs which point to a self-hosted [TFTP](https://help.ubuntu.com/comm
       dhcp-boot=tag:ubuntu-trusty64-preseed, pxelinux.ubuntu-trusty64-preseed, <router_ipaddr>, <tftp_ipaddr>
       dhcp-boot=tag:ubuntu-xenial64-serial, pxelinux.ubuntu-xenial64-serial, <router_ipaddr>, <tftp_ipaddr>
       dhcp-boot=tag:ubuntu-xenial64-preseed, pxelinux.ubuntu-xenial64-preseed, <router_ipaddr>, <tftp_ipaddr>
+      dhcp-boot=tag:ubuntu-bionic64-serial, pxelinux.ubuntu-bionic64-serial, <router_ipaddr>, <tftp_ipaddr>
+      dhcp-boot=tag:ubuntu-bionic64-preseed, pxelinux.ubuntu-bionic64-preseed, <router_ipaddr>, <tftp_ipaddr>
 
       # (Optional from 3.) Define a new DHCP option for retrieving the preseed URL,
       # and define the specific preseed URLs for the relevant tags.
@@ -71,6 +73,7 @@ custom PXE ROMs which point to a self-hosted [TFTP](https://help.ubuntu.com/comm
       dhcp-option=244,preseed-url
       dhcp-option=tag:ubuntu-trusty64-preseed,244,"https://pub.nderjung.net/preseeds/ubuntu.trusty64.cfg"
       dhcp-option=tag:ubuntu-xenial64-preseed,244,"https://pub.nderjung.net/preseeds/ubuntu.xenial64.cfg"
+      dhcp-option=tag:ubuntu-bionic64-preseed,244,"https://pub.nderjung.net/preseeds/ubuntu.bionic64.cfg"
       
       # Set device-specific ROMs (adjust accordingly)
       dhcp-host=<hwaddr>, set:ubuntu-trusty64-serial, <ipaddr>, <hostname>
