@@ -24,13 +24,11 @@ custom PXE ROMs which point to a self-hosted [TFTP](https://help.ubuntu.com/comm
 
 2. Set up a TFTP server to host the PXE ROMs,
 
-   1. Define a static IP, e.g. `10.1.0.69`.
+   1. Set the hostname, e.g. `tftp`.
 
-   2. Set the hostname, e.g. `tftp`.
+   2. Expose port `udp/69`.
 
-   3. Expose port `udp/69`.
-
-   4. Install and run the TFTP server:
+   3. Install and run the TFTP server:
 
       1. You can use the built in TFTP server:
          ```bash
@@ -42,7 +40,11 @@ custom PXE ROMs which point to a self-hosted [TFTP](https://help.ubuntu.com/comm
          ```bash
          # apt install -y tftpd-hpa tftp-hpa xinetd
          ```
-         Then copy the contents from `out/` to `10.1.0.69:/srv/tftp`. 
+         
+         Then copy the contents from `out/` to the TFTP server:
+         ```
+         $ scp -r out/ 10.1.0.69:/srv/tftp
+         ```
 
 3. (Optional) Set up a HTTP server to host preseeds and kernels.  A pre-built
    server is included in the [`docker-compose.yml`](docker-compose.yml) file as an
@@ -53,18 +55,16 @@ custom PXE ROMs which point to a self-hosted [TFTP](https://help.ubuntu.com/comm
 4. Set up a DHCP server to indicate to the network bootable server a ROM is
    available,
 
-   1. Define a static IP, e.g. `10.1.0.1`. 
+   1. Set the hostname, e.g. `router`.
 
-   2. Set the hostname, e.g. `router`.
-
-   3. Set up `/etc/dnsmasq.conf`:
+   2. Edit `/etc/dnsmasq.conf`:
 
       ```
       # Define PXE ROMs as seperate tags (from `out/`)
-      dhcp-boot=tag:ubuntu-trusty64-serial,pxelinux.ubuntu-trusty64-serial
-      dhcp-boot=tag:ubuntu-trusty64-preseed,pxelinux.ubuntu-trusty64-preseed
-      dhcp-boot=tag:ubuntu-xenial64-serial,pxelinux.ubuntu-xenial64-serial
-      dhcp-boot=tag:ubuntu-xenial64-preseed,pxelinux.ubuntu-xenial64-preseed
+      dhcp-boot=tag:ubuntu-trusty64-serial,pxelinux.ubuntu-trusty64-serial,router,tftp
+      dhcp-boot=tag:ubuntu-trusty64-preseed,pxelinux.ubuntu-trusty64-preseed,router,tftp
+      dhcp-boot=tag:ubuntu-xenial64-serial,pxelinux.ubuntu-xenial64-serial,router,tftp
+      dhcp-boot=tag:ubuntu-xenial64-preseed,pxelinux.ubuntu-xenial64-preseed,router,tftp
 
       # (Optional from 3.) Define remote preseed endpoints, giving them a unique
       # tag.  ${preseed-url} will be replaced in relevant PXE config files
