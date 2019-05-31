@@ -11,9 +11,9 @@ custom PXE ROMs which point to a self-hosted TFTP and HTTP server.
    1. Build on native host simply by calling `make`.
 
    2. Or, build use the provided [`Dockerfile`](Dockerfile):
-      ```
-      make container
-      docker run -it --rm \
+      ```bash
+      $ make container
+      $ docker run -it --rm \
         -v $(pwd)/out:/pxe-roms/out:rw \
         nderjung.net/pxe-roms:latest \
         make
@@ -33,9 +33,9 @@ custom PXE ROMs which point to a self-hosted TFTP and HTTP server.
    4. Install and run the TFTP server:
 
       1. You can use the built in TFTP server:
-         ```
-         DOCKER_TARGET=serve make container
-         docker run -it --rm -p 69:69/udp nderjung.net/pxe-roms:latest
+         ```bash
+         $ DOCKER_TARGET=serve make container
+         $ docker run -it --rm -p 69:69/udp nderjung.net/pxe-roms:latest
          ```
 
       2. Or, install [`tftp-hpa`]() manually, e.g:
