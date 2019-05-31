@@ -57,22 +57,27 @@ custom PXE ROMs which point to a self-hosted [TFTP](https://help.ubuntu.com/comm
 
    1. Set the hostname, e.g. `router`.
 
-   2. Edit `/etc/dnsmasq.conf`:
+   2. Edit `/etc/dnsmasq.conf` and be sure to replace `router` and `tftp` with
+      the IP addresses relevant to your network:
       ```
-      # Define PXE ROMs as seperate tags (from `out/`)
-      dhcp-boot=tag:ubuntu-trusty64-serial,pxelinux.ubuntu-trusty64-serial,router,tftp
-      dhcp-boot=tag:ubuntu-trusty64-preseed,pxelinux.ubuntu-trusty64-preseed,router,tftp
-      dhcp-boot=tag:ubuntu-xenial64-serial,pxelinux.ubuntu-xenial64-serial,router,tftp
-      dhcp-boot=tag:ubuntu-xenial64-preseed,pxelinux.ubuntu-xenial64-preseed,router,tftp
+      # Define a new DHCP option for retrieving the preseed URL
+      dhcp-option=224,preseed-url
 
-      # (Optional from 3.) Define remote preseed endpoints, giving them a unique
+      # Define PXE ROMs as seperate tags (from `out/`)
+      dhcp-boot=tag:ubuntu-trusty64-serial, pxelinux.ubuntu-trusty64-serial, router, tftp
+      dhcp-boot=tag:ubuntu-trusty64-preseed, pxelinux.ubuntu-trusty64-preseed, router, tftp
+      dhcp-boot=tag:ubuntu-xenial64-serial, pxelinux.ubuntu-xenial64-serial, router, tftp
+      dhcp-boot=tag:ubuntu-xenial64-preseed, pxelinux.ubuntu-xenial64-preseed, router, tftp
+
+      # (Optional from 3.) Define remote preseed endpoints,  giving them a unique
       # tag.  ${preseed-url} will be replaced in relevant PXE config files
-      dhcp-option=tag:ubuntu-trusty64-preseed,option:preseed-url,https://pub.nderjung.net/preseeds/ubuntu.trusty64.cfg
-      dhcp-option=tag:ubuntu-xenial64-preseed,option:preseed-url,https://pub.nderjung.net/preseeds/ubuntu.xenial64.cfg
+      dhcp-option=244,preseed-url
+      dhcp-option=tag:ubuntu-trusty64-preseed,244,"https://pub.nderjung.net/preseeds/ubuntu.trusty64.cfg"
+      dhcp-option=tag:ubuntu-xenial64-preseed,244,"https://pub.nderjung.net/preseeds/ubuntu.xenial64.cfg"
       
       # Set device-specific ROMs (adjust accordingly)
-      dhcp-host=<hwaddr>,set:ubuntu-trusty64-serial,<ipaddr>,<hostname>
-      dhcp-host=<hwaddr>,set:ubuntu-xenial64-preseed,<ipaddr>,<hostname>
+      dhcp-host=<hwaddr>, set:ubuntu-trusty64-serial, <ipaddr>, <hostname>
+      dhcp-host=<hwaddr>, set:ubuntu-xenial64-preseed, <ipaddr>, <hostname>
       ```
 
    3. Restart the service:
