@@ -23,7 +23,7 @@ DOCKER_FLAGS     ?=
 DOCKER_TARGET    ?= build
 
 # Distributions
-UBUNTU           ?= trusty64 xenial64
+UBUNTU           ?= trusty64-preseed trusty64-serial xenial64-preseed xenial64-serial
 
 # Build targets
 ifndef TARGET
