@@ -32,7 +32,7 @@ Build custom PXE Ubuntu ROMS with preseeding
          Then copy the contents from `out/` to `10.1.0.69:/srv/tftp`. 
 3. Set up a DHCP server
    1. Define a static IP, e.g. `10.1.0.1` 
-   2. Set the hostname `router`
+   2. Set the hostname, e.g. `router`
    3. Set up `/etc/dnsmasq.conf`:
 
       ```
