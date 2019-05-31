@@ -58,7 +58,6 @@ custom PXE ROMs which point to a self-hosted [TFTP](https://help.ubuntu.com/comm
    1. Set the hostname, e.g. `router`.
 
    2. Edit `/etc/dnsmasq.conf`:
-
       ```
       # Define PXE ROMs as seperate tags (from `out/`)
       dhcp-boot=tag:ubuntu-trusty64-serial,pxelinux.ubuntu-trusty64-serial,router,tftp
@@ -74,6 +73,11 @@ custom PXE ROMs which point to a self-hosted [TFTP](https://help.ubuntu.com/comm
       # Set device-specific ROMs (adjust accordingly)
       dhcp-host=<hwaddr>,set:ubuntu-trusty64-serial,<ipaddr>,<hostname>
       dhcp-host=<hwaddr>,set:ubuntu-xenial64-preseed,<ipaddr>,<hostname>
+      ```
+
+   3. Restart the service:
+      ```
+      # /etc/init.d/dnsmasq restart
       ```
 
 5. Reboot <hostname> and viola!
