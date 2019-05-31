@@ -44,7 +44,12 @@ custom PXE ROMs which point to a self-hosted TFTP and HTTP server.
          ```
          Then copy the contents from `out/` to `10.1.0.69:/srv/tftp`. 
 
-3. Set up a DHCP server to indicate to the network bootable server a ROM is
+3. Set up a HTTP server to host preseeds and kernels.  A pre-built server is
+   included in the [`docker-compose.yml`](docker-compose.yml) file as an
+   example.  In the rest of this tutorial, I will be referring to
+   [`https://pub.nderjung.net`](https://pub.nderjung.net) as the HTTP server.
+
+4. Set up a DHCP server to indicate to the network bootable server a ROM is
    available,
 
    1. Define a static IP, e.g. `10.1.0.1`. 
@@ -60,13 +65,13 @@ custom PXE ROMs which point to a self-hosted TFTP and HTTP server.
       dhcp-boot=tag:ubuntu-xenial64,pxelinux.ubuntu-xenial64
 
       # Define remote tftp server
-      dhcp-option=option:http-server,10.1.0.69
+      dhcp-option=option:tftp-server,10.1.0.69
+
+      # Define remote http server
+      dhcp-option=option:http-server,https://pub.nderjung.net
       
       # Set device-specific ROMs
       dhcp-host=<hwaddr>,set:ubuntu-xenial64,<ipaddr>,<hostname>
       ```
-
-5. Set up a HTTP server to host preseeds and kernels.  A pre-built server is
-   included in the [`docker-compose.yml`](docker-compose.yml) file.
 
 4. Reboot <hostname> and viola!
