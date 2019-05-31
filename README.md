@@ -57,14 +57,13 @@ custom PXE ROMs which point to a self-hosted [TFTP](https://help.ubuntu.com/comm
 
    1. Set the hostname, e.g. `router`.
 
-   2. Edit `/etc/dnsmasq.conf` and be sure to replace `router` and `tftp` with
-      the IP addresses relevant to your network:
+   2. Edit `/etc/dnsmasq.conf`:
       ```
       # Define PXE ROMs as seperate tags (from `out/`)
-      dhcp-boot=tag:ubuntu-trusty64-serial, pxelinux.ubuntu-trusty64-serial, router, tftp
-      dhcp-boot=tag:ubuntu-trusty64-preseed, pxelinux.ubuntu-trusty64-preseed, router, tftp
-      dhcp-boot=tag:ubuntu-xenial64-serial, pxelinux.ubuntu-xenial64-serial, router, tftp
-      dhcp-boot=tag:ubuntu-xenial64-preseed, pxelinux.ubuntu-xenial64-preseed, router, tftp
+      dhcp-boot=tag:ubuntu-trusty64-serial, pxelinux.ubuntu-trusty64-serial, <router_ipaddr>, <tftp_ipaddr>
+      dhcp-boot=tag:ubuntu-trusty64-preseed, pxelinux.ubuntu-trusty64-preseed, <router_ipaddr>, <tftp_ipaddr>
+      dhcp-boot=tag:ubuntu-xenial64-serial, pxelinux.ubuntu-xenial64-serial, <router_ipaddr>, <tftp_ipaddr>
+      dhcp-boot=tag:ubuntu-xenial64-preseed, pxelinux.ubuntu-xenial64-preseed, <router_ipaddr>, <tftp_ipaddr>
 
       # (Optional from 3.) Define a new DHCP option for retrieving the preseed URL,
       # and define the specific preseed URLs for the relevant tags.
