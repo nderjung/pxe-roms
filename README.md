@@ -31,7 +31,7 @@ Build custom PXE Ubuntu ROMS with preseeding
          ```
          DOCKER_TARGET=serve make container
          docker run -it --rm -p 69:69/udp nderjung.net/pxe-roms:latest
-        ```
+         ```
 
       2. Or, install [`tftp-hpa`]() manually, e.g:
          ```bash
