@@ -3,7 +3,7 @@
 ## `gen-dnsmasq.sh`
 
 ```bash
-$ ./gen-dnsmasq.h --help
+$ ./gen-dnsmasq.sh --help
 gen-dnsmasq.sh - Generate dnsmasq.conf based on list of PXE roms
 Usage:
   gen-dnsmasq.sh [OPTIONS]
