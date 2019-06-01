@@ -27,9 +27,15 @@ UBUNTU           ?= trusty64-preseed trusty64-serial
 UBUNTU           += xenial64-preseed xenial64-serial
 UBUNTU           += bionic64-preseed bionic64-serial
 
+# Custom iPXE scripts
+CUSTOM           ?= $(shell find config/custom -type f -name '*.cfg')
+
 # Build targets
 ifndef TARGET
 TARGET           := $(addprefix ubuntu/, $(UBUNTU))
+
+# Custom iPXE scripts
+TARGET           += $(subst .cfg,, $(subst config/,,$(CUSTOM)))
 endif
 
 # Actual targets
