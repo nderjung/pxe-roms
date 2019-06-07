@@ -27,6 +27,7 @@ UBUNTU           ?= trusty64-preseed trusty64-serial
 UBUNTU           += xenial64-preseed xenial64-serial
 UBUNTU           += bionic64-preseed bionic64-serial
 COREOS           ?= stable beta alpha
+XCP_NG           ?= 7.5 7.6 8.0 latest
 
 # Custom iPXE scripts
 CUSTOM           ?= $(shell find config/custom -type f -name '*.cfg')
@@ -35,6 +36,7 @@ CUSTOM           ?= $(shell find config/custom -type f -name '*.cfg')
 ifndef TARGET
 TARGET           := $(addprefix ubuntu/, $(UBUNTU))
 TARGET           += $(addprefix coreos/, $(COREOS))
+TARGET           += $(addprefix xcp-ng/, $(XCP_NG))
 
 # Custom iPXE scripts
 TARGET           += $(subst .cfg,, $(subst config/,,$(CUSTOM)))
