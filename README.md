@@ -21,6 +21,12 @@ custom PXE ROMs which point to a self-hosted [TFTP](https://help.ubuntu.com/comm
 
       You can also specify specific roms, e.g. `make ubuntu/xenial64` or create
       your own by adding them into the [`config/custom`](config/custom) directory.
+   
+   3. (Optional) You can embed a preseed url for the rom you are building by
+      providing an environmental variable `PRESEED_URL` during make:
+      ```bash
+      $ make PRESEED_URL=... ubuntu/xenial64
+      ```
 
 2. Set up a TFTP server to host the PXE ROMs,
 
@@ -79,8 +85,23 @@ custom PXE ROMs which point to a self-hosted [TFTP](https://help.ubuntu.com/comm
       dhcp-host=<hwaddr>, set:ubuntu-trusty64-serial, <ipaddr>, <hostname>
       dhcp-host=<hwaddr>, set:ubuntu-xenial64-preseed, <ipaddr>, <hostname>
       ```
+   
+   3. (Optional) To acknowledge the new DHCP option for the preseed URL, you must
+      define it.
 
-   3. Restart the service:
+      1.  In a BSD-like environment, you can edit `/etc/config/dhcp` and add the
+          following:
+          ```
+          
+          ```
+
+      2.  In Linux-like environment, you can edit `/etc/dhcpd.conf` and add the
+          following:
+          ```
+          option preseed-url code 244 = string;
+          ```
+
+   4. Restart the service:
       ```
       # /etc/init.d/dnsmasq restart
       ```

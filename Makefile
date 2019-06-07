@@ -10,6 +10,7 @@ DOCKER_REGISTRY  ?= nderjung.net
 DOCKER_NAMESPACE ?= pxe-roms
 TAG              ?= $(shell git symbolic-ref HEAD 2>/dev/null | cut -d"/" -f 3) 
 DOCKER_CONTAINER ?= $(subst //,/,$(DOCKER_REGISTRY)/$(DOCKER_NAMESPACE):$(TAG))
+PRESEED_URL      ?=
 
 # Directories
 SRC_DIR          ?= $(CURDIR)
@@ -55,8 +56,14 @@ ifeq ($(wildcard $(PXE_DIR)),)
 endif
 
 $(TARGET): $(OUT_DIR) $(PXE_DIR)
-	$(MAKE) -C $(PXE_DIR)/src bin/undionly.kpxe \
-		EMBED=$(SRC_DIR)/config/$@.cfg
+ifneq ($(PRESEED_URL),)
+	$(eval EMBED_CFG := $(shell mktemp))
+	cp $(SRC_DIR)/config/$@.cfg $(EMBED_CFG)
+	sed -i 's|$${preseed-url}|$(PRESEED_URL)|' $(EMBED_CFG)
+else
+	$(eval EMBED_CFG := $(SRC_DIR)/config/$@.cfg)
+endif
+	$(MAKE) -C $(PXE_DIR)/src bin/undionly.kpxe EMBED=$(EMBED_CFG)
 	cp -f $(PXE_DIR)/src/bin/undionly.kpxe \
 		$(OUT_DIR)/pxelinux.$(shell echo $@|sed -e "s/\//-/")
 
