@@ -98,11 +98,11 @@ fi
 
 # Print out a usable config
 for ROM in "${ROMS[@]}"; do
-TAG=$(echo $ROM | sed "s/pxelinux.//g")
-cat <<EOF >> $OUT
+  TAG=$(echo $ROM | sed "s/pxelinux.//g")
+  cat <<EOF >> $OUT
 dhcp-boot=tag:$TAG, $ROM, $DHCPIP, $TFTPIP
 EOF
-done
+  done
 
 cat <<EOF >> $OUT
 
